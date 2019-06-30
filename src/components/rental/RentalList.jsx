@@ -1,27 +1,38 @@
-import React, { Component } from "react";
+import React,{Component} from "react";
 import { RentalCard } from "../rental/RentalCard";
+import { connect } from "react-redux";
 
-export default class RentalList extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      rentals: [1, 2, 3]
-    };
-  }
-
+class RentalList extends React.Component {
+    
   renderRentals() {
-    return this.state.rentals.map(rental => {
-      return <RentalCard />;
+ 
+    return this.props.rentals.map((rental, index) => {
+      console.log(rental);
+      return (
+        <RentalCard
+        key={index}
+        colNum='col-md-3 col-xs-6'
+        rental={rental} />)
+      
     });
   }
-
+  
   render() {
     return (
       <section id="rentalListing">
         <h1 className="page-title"> Your Home All Around the World</h1>
-        <div className="row">{this.renderRentals()}</div>
+        <div className="row">
+          {this.renderRentals()}
+          </div>
       </section>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    rentals:state.rentals
+  }
+}
+
+export default connect(mapStateToProps)(RentalList);
